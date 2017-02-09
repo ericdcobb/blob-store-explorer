@@ -11,8 +11,10 @@ import (
 
 // Exploration to be explored
 type Exploration struct {
-	Path  string
-	Stats *Stats
+	Path      string
+	Collect   bool
+	Stats     *Stats
+	Collected []*properties.Properties
 }
 
 func (exploration *Exploration) visit(path string, f os.FileInfo, err error) error {
@@ -24,6 +26,9 @@ func (exploration *Exploration) visit(path string, f os.FileInfo, err error) err
 		if props.GetBool("deleted", false) {
 			exploration.Stats.SoftDeleted++
 			exploration.Stats.TotalSizeDeleted += props.GetInt64("size", 0)
+		}
+		if exploration.Collect {
+			exploration.Collected = append(exploration.Collected, props)
 		}
 	}
 	return nil
@@ -44,12 +49,22 @@ func (stats *Stats) String() string {
 
 // Run executes the exploration
 func (exploration *Exploration) Run() {
-	fmt.Printf("exploring %s \n", exploration.Path)
+	fmt.Printf("Exploring %s", exploration.Path)
 	filepath.Walk(exploration.Path, exploration.visit)
+	fmt.Println("Stats:")
 	fmt.Println(exploration.Stats)
+	if exploration.Collect {
+		for _, prop := range exploration.Collected {
+			fmt.Println(prop)
+		}
+	}
 }
 
 // Explore defines the Blob Store directory to explore
-func Explore(path string) Exploration {
-	return Exploration{path, &Stats{0, 0, 0, 0}}
+func Explore(path string, collect bool) Exploration {
+	return Exploration{
+		Path:      path,
+		Collect:   collect,
+		Stats:     &Stats{0, 0, 0, 0},
+		Collected: make([]*properties.Properties, 0)}
 }

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"os"
 
 	"github.com/ericdcobb/blob-store-explorer/explorer"
@@ -9,15 +8,24 @@ import (
 )
 
 func main() {
+	var collect bool
 	app := cli.NewApp()
 	app.Usage = "Explore your Blob Store!"
 
+	app.Flags = []cli.Flag{
+		cli.BoolFlag{
+			Name:        "collect, c",
+			Usage:       "Collect and print the results of the exploration",
+			Destination: &collect,
+		},
+	}
+
 	app.Action = func(c *cli.Context) error {
-		path := c.Args().Get(0)
-		if path == "" {
-			return errors.New("you must supply the blob store directory you wish to explore")
+		path := ""
+		if c.NArg() > 0 {
+			path = c.Args()[0]
 		}
-		exploration := explore.Explore(path)
+		exploration := explore.Explore(path, collect)
 		exploration.Run()
 		return nil
 	}
