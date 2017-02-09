@@ -28,3 +28,15 @@ Produces
   "total-size-deleted" : 23543
 }
 ```
+
+Example properties:
+```
+#Thu Feb 09 14:23:44 MST 2017
+@BlobStore.created-by=admin
+size=32
+@Bucket.repo-name=maven-releases
+creationTime=1486675424145
+@BlobStore.content-type=text/plain
+@BlobStore.blob-name=com/sonatype/training/nxs301/03-implicit-staging/1.24.0/03-implicit-staging-1.24.0.pom.md5
+sha1=713a264172d968a64d784e3dd6f52c1653051bdf
+```
