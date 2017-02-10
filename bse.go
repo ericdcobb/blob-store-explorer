@@ -37,3 +37,7 @@ func main() {
 
 	app.Run(os.Args)
 }
+
+func twice(n int) int {
+	return n * 2
+}
