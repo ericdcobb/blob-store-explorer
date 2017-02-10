@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/magiconair/properties"
@@ -15,12 +16,18 @@ type Exploration struct {
 	Collect   bool
 	Stats     *Stats
 	Collected []*properties.Properties
+	Filters   []string
 }
 
 func (exploration *Exploration) visit(path string, f os.FileInfo, err error) error {
 	// fmt.Printf("Visited: %s\n", path)
 	if strings.HasSuffix(path, "properties") && !strings.Contains(path, "metrics") {
 		props := properties.MustLoadFile(path, properties.UTF8)
+
+		if !exploration.include(props) {
+			return nil
+		}
+
 		exploration.Stats.TotalBlobs++
 		exploration.Stats.TotalSize += props.GetInt64("size", 0)
 		if props.GetBool("deleted", false) {
@@ -32,6 +39,24 @@ func (exploration *Exploration) visit(path string, f os.FileInfo, err error) err
 		}
 	}
 	return nil
+}
+
+func (exploration *Exploration) include(props *properties.Properties) bool {
+	if len(exploration.Filters) == 0 {
+		return true
+	}
+	for _, val := range exploration.Filters {
+		property := strings.Split(val, "=")
+		matches, err := regexp.MatchString(property[1], props.GetString(property[0], ""))
+		if err != nil {
+			fmt.Println(err)
+		}
+		if !matches {
+			return matches
+		}
+	}
+	return true
+
 }
 
 // Stats about the exploration
@@ -61,10 +86,11 @@ func (exploration *Exploration) Run() {
 }
 
 // Explore defines the Blob Store directory to explore
-func Explore(path string, collect bool) Exploration {
+func Explore(path string, collect bool, filters []string) Exploration {
 	return Exploration{
 		Path:      path,
 		Collect:   collect,
 		Stats:     &Stats{0, 0, 0, 0},
-		Collected: make([]*properties.Properties, 0)}
+		Collected: make([]*properties.Properties, 0),
+		Filters:   filters}
 }

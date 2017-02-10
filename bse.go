@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/ericdcobb/blob-store-explorer/explorer"
@@ -18,6 +19,9 @@ func main() {
 			Usage:       "Collect and print the results of the exploration",
 			Destination: &collect,
 		},
+		cli.StringSliceFlag{
+			Name: "filter, f",
+		},
 	}
 
 	app.Action = func(c *cli.Context) error {
@@ -25,7 +29,8 @@ func main() {
 		if c.NArg() > 0 {
 			path = c.Args()[0]
 		}
-		exploration := explore.Explore(path, collect)
+		fmt.Println(c.StringSlice("filter"))
+		exploration := explore.Explore(path, collect, c.StringSlice("filter"))
 		exploration.Run()
 		return nil
 	}
