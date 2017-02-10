@@ -79,7 +79,7 @@ sha1 = dbfa3838d7c51136f022e8c7698611daa23114d8
 
 ## TODO:
 
-[ ] Tests!
-[ ] some kind of package/ version management, you have to manually `go get` dependencies now
-[ ] better error handling
-[ ] output in various formats (json?)
+- [ ] Tests!
+- [ ] some kind of package/ version management, you have to manually `go get` dependencies now
+- [ ] better error handling
+- [ ] output in various formats (json?)
