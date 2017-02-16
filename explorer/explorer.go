@@ -35,6 +35,7 @@ func (exploration *Exploration) visit(path string, f os.FileInfo, err error) err
 			exploration.Stats.TotalSizeDeleted += props.GetInt64("size", 0)
 		}
 		if exploration.Collect {
+			props.Set("filePath", path)
 			exploration.Collected = append(exploration.Collected, props)
 		}
 	}
@@ -74,7 +75,7 @@ func (stats *Stats) String() string {
 
 // Run executes the exploration
 func (exploration *Exploration) Run() {
-	fmt.Printf("Exploring %s", exploration.Path)
+	fmt.Printf("Exploring %s\n", exploration.Path)
 	filepath.Walk(exploration.Path, exploration.visit)
 	fmt.Println("Stats:")
 	fmt.Println(exploration.Stats)
