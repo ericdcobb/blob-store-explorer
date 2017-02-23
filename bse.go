@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/ericdcobb/blob-store-explorer/explorer"
@@ -29,7 +28,6 @@ func main() {
 		if c.NArg() > 0 {
 			path = c.Args()[0]
 		}
-		fmt.Println(c.StringSlice("filter"))
 		exploration := explore.Explore(path, collect, c.StringSlice("filter"))
 		exploration.Run()
 		return nil

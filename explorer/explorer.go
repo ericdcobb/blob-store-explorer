@@ -21,7 +21,7 @@ type Exploration struct {
 
 func (exploration *Exploration) visit(path string, f os.FileInfo, err error) error {
 	// fmt.Printf("Visited: %s\n", path)
-	if strings.HasSuffix(path, "properties") && !strings.Contains(path, "metrics") {
+	if strings.HasSuffix(path, "properties") && !strings.Contains(path, "metrics") && !strings.Contains(path, "metadata") {
 		props := properties.MustLoadFile(path, properties.UTF8)
 
 		if !exploration.include(props) {
