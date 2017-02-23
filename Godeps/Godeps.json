@@ -1,0 +1,17 @@
+{
+	"ImportPath": "github.com/ericdcobb/blob-store-explorer",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v79",
+	"Deps": [
+		{
+			"ImportPath": "github.com/magiconair/properties",
+			"Comment": "v1.7.0-16-gb3b15ef",
+			"Rev": "b3b15ef068fd0b17ddf408a23669f20811d194d2"
+		},
+		{
+			"ImportPath": "github.com/urfave/cli",
+			"Comment": "v1.19.1-21-g347a988",
+			"Rev": "347a9884a87374d000eec7e6445a34487c1f4a2b"
+		}
+	]
+}
