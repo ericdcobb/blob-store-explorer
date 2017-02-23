@@ -1,5 +1,12 @@
 # blob-store-explorer
 
+## Contents
+
+* [Overview](#overview)
+* [Usage](#usage)
+* [Package Management](#package-management)
+* [Todo](#todo)
+
 ## Overview
 
 The Blob Store explorer was written in Golang mostly because I wanted to learn it.
@@ -76,10 +83,15 @@ creationTime = 1486675424191
 @BlobStore.content-type = application/xml
 sha1 = dbfa3838d7c51136f022e8c7698611daa23114d8
 ```
+## Package Management
+
+Dependencies are currently managed by [godep](https://github.com/tools/godep), which looks to be the [most popular](https://github.com/golang/go/wiki/PackageManagementTools) package management tool today. Interestingly, godep pulls dependencies into a 'vendor' folder, which is then managed in VC.
+
+Check out [The Saga of Go Dependency Management](https://blog.gopheracademy.com/advent-2016/saga-go-dependency-management/) for an interesting read. The upshot of all this is that the Go community recognizes the limitations inherent in "Just committing vendor" and has begun working on an official tool ([dep](https://github.com/golang/dep)) to reproduce builds, with committing vendor becoming optional.
 
 ## TODO:
 
 - [ ] Tests!
-- [ ] some kind of package/ version management, you have to manually `go get` dependencies now
+- [x] some kind of package/ version management, you have to manually `go get` dependencies now
 - [ ] better error handling
 - [ ] output in various formats (json?)
