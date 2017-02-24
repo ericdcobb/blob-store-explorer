@@ -91,7 +91,7 @@ Check out [The Saga of Go Dependency Management](https://blog.gopheracademy.com/
 
 ## TODO:
 
-- [ ] Tests!
+- [x] Tests!
 - [x] some kind of package/ version management, you have to manually `go get` dependencies now
 - [ ] better error handling
-- [ ] output in various formats (json?)
+- [x] output in various formats (json?)

@@ -6,7 +6,7 @@ import (
 )
 
 func TestFunctional_noCollect_noFilters(t *testing.T) {
-	explorer := Explore("testdata", false, nil)
+	explorer := Explore("testdata", false, nil, "json")
 	explorer.Run()
 
 	assertEqual(t, explorer.Stats.TotalBlobs, int64(31), "")
@@ -18,7 +18,7 @@ func TestFunctional_noCollect_noFilters(t *testing.T) {
 }
 
 func TestFunctional_noCollect_withFilters(t *testing.T) {
-	explorer := Explore("testdata", false, []string{"@BlobStore.blob-name=pom"})
+	explorer := Explore("testdata", false, []string{"@BlobStore.blob-name=pom"}, "text")
 	explorer.Run()
 
 	assertEqual(t, explorer.Stats.TotalBlobs, int64(11), "")
@@ -30,7 +30,7 @@ func TestFunctional_noCollect_withFilters(t *testing.T) {
 }
 
 func TestFunctional_withCollect_noFilters(t *testing.T) {
-	explorer := Explore("testdata", true, nil)
+	explorer := Explore("testdata", true, nil, "default")
 	explorer.Run()
 	assertEqual(t, len(explorer.Collected), 31, "")
 }

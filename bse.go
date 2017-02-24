@@ -9,6 +9,7 @@ import (
 
 func main() {
 	var collect bool
+	var format string
 	app := cli.NewApp()
 	app.Usage = "Explore your Blob Store!"
 
@@ -21,6 +22,12 @@ func main() {
 		cli.StringSliceFlag{
 			Name: "filter, f",
 		},
+		cli.StringFlag{
+			Name:        "format, fmt",
+			Value:       "text",
+			Usage:       "Format of output, 'json' or 'text'",
+			Destination: &format,
+		},
 	}
 
 	app.Action = func(c *cli.Context) error {
@@ -28,7 +35,7 @@ func main() {
 		if c.NArg() > 0 {
 			path = c.Args()[0]
 		}
-		exploration := explore.Explore(path, collect, c.StringSlice("filter"))
+		exploration := explore.Explore(path, collect, c.StringSlice("filter"), format)
 		exploration.Run()
 		return nil
 	}

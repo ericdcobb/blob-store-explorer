@@ -1,6 +1,7 @@
 package explore
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -17,6 +18,7 @@ type Exploration struct {
 	Stats     *Stats
 	Collected []*properties.Properties
 	Filters   []string
+	Format    string
 }
 
 func (exploration *Exploration) visit(path string, f os.FileInfo, err error) error {
@@ -80,18 +82,39 @@ func (exploration *Exploration) Run() {
 	fmt.Println("Stats:")
 	fmt.Println(exploration.Stats)
 	if exploration.Collect {
-		for _, prop := range exploration.Collected {
-			fmt.Println(prop)
+		if exploration.Format == "json" {
+			allProps := make([]map[string]string, 0)
+			for _, prop := range exploration.Collected {
+				allProps = append(allProps, getMap(prop))
+			}
+			data, _ := json.MarshalIndent(allProps, "", "\t")
+			fmt.Println(string(data))
+		} else {
+			for _, prop := range exploration.Collected {
+				fmt.Println(prop)
+			}
 		}
 	}
 }
 
+func getMap(prop *properties.Properties) map[string]string {
+	m := make(map[string]string, 0)
+	for _, key := range prop.Keys() {
+		value, ok := prop.Get(key)
+		if ok {
+			m[key] = value
+		}
+	}
+	return m
+}
+
 // Explore defines the Blob Store directory to explore
-func Explore(path string, collect bool, filters []string) Exploration {
+func Explore(path string, collect bool, filters []string, format string) Exploration {
 	return Exploration{
 		Path:      path,
 		Collect:   collect,
 		Stats:     &Stats{0, 0, 0, 0},
 		Collected: make([]*properties.Properties, 0),
-		Filters:   filters}
+		Filters:   filters,
+		Format:    format}
 }
