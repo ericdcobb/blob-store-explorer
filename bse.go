@@ -10,6 +10,9 @@ import (
 func main() {
 	var collect bool
 	var format string
+	var before string
+	var after string
+
 	app := cli.NewApp()
 	app.Usage = "Explore your Blob Store!"
 
@@ -28,6 +31,18 @@ func main() {
 			Usage:       "Format of output, 'json' or 'text'",
 			Destination: &format,
 		},
+		cli.StringFlag{
+			Name:        "before, b",
+			Value:       "",
+			Usage:       "Filter to include blobs created before this date",
+			Destination: &before,
+		},
+		cli.StringFlag{
+			Name:        "after, a",
+			Value:       "",
+			Usage:       "Filter to include blobs created after this date",
+			Destination: &after,
+		},
 	}
 
 	app.Action = func(c *cli.Context) error {
@@ -35,7 +50,9 @@ func main() {
 		if c.NArg() > 0 {
 			path = c.Args()[0]
 		}
-		exploration := explore.Explore(path, collect, c.StringSlice("filter"), format)
+
+		exploration := explore.Explore(path, collect, c.StringSlice("filter"), format,
+			before, after)
 		exploration.Run()
 		return nil
 	}

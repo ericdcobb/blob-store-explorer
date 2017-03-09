@@ -19,6 +19,8 @@ type Exploration struct {
 	Collected []*properties.Properties
 	Filters   []string
 	Format    string
+	Before    string
+	After     string
 }
 
 func (exploration *Exploration) visit(path string, f os.FileInfo, err error) error {
@@ -45,9 +47,7 @@ func (exploration *Exploration) visit(path string, f os.FileInfo, err error) err
 }
 
 func (exploration *Exploration) include(props *properties.Properties) bool {
-	if len(exploration.Filters) == 0 {
-		return true
-	}
+
 	for _, val := range exploration.Filters {
 		property := strings.Split(val, "=")
 		matches, err := regexp.MatchString(property[1], props.GetString(property[0], ""))
@@ -58,6 +58,15 @@ func (exploration *Exploration) include(props *properties.Properties) bool {
 			return matches
 		}
 	}
+
+	if len(exploration.Before) > 0 && !IsBefore(exploration.Before, props.GetString("creationTime", "0000000000000")) {
+		return false
+	}
+
+	if len(exploration.After) > 0 && !IsAfter(exploration.After, props.GetString("creationTime", "0000000000000")) {
+		return false
+	}
+
 	return true
 
 }
@@ -109,12 +118,15 @@ func getMap(prop *properties.Properties) map[string]string {
 }
 
 // Explore defines the Blob Store directory to explore
-func Explore(path string, collect bool, filters []string, format string) Exploration {
+func Explore(path string, collect bool, filters []string, format string,
+	beforeDate string, afterDate string) Exploration {
 	return Exploration{
 		Path:      path,
 		Collect:   collect,
 		Stats:     &Stats{0, 0, 0, 0},
 		Collected: make([]*properties.Properties, 0),
 		Filters:   filters,
-		Format:    format}
+		Format:    format,
+		Before:    beforeDate,
+		After:     afterDate}
 }
