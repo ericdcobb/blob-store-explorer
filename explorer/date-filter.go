@@ -21,11 +21,7 @@ func IsAfter(userInput string, blobStoreTimeStamp string) bool {
 }
 
 func convertTimes(userInput string, blobStoreTimeStamp string) (time.Time, time.Time) {
-	i, err := strconv.ParseInt(blobStoreTimeStamp, 10, 64)
-	if err != nil {
-		panic(err)
-	}
-	blobStoreCreatedTime := time.Unix(i/1000, 0)
+	blobStoreCreatedTime := BlobCreatedTime(blobStoreTimeStamp)
 
 	userInputTime, userInputErr := time.Parse(time.RFC3339, userInput)
 	if userInputErr != nil {
@@ -34,6 +30,15 @@ func convertTimes(userInput string, blobStoreTimeStamp string) (time.Time, time.
 		panic(userInputErr)
 	}
 	return userInputTime, blobStoreCreatedTime
+}
+
+// BlobCreatedTime ...
+func BlobCreatedTime(blobStoreTimeStamp string) time.Time {
+	i, err := strconv.ParseInt(blobStoreTimeStamp, 10, 64)
+	if err != nil {
+		panic(err)
+	}
+	return time.Unix(i/1000, 0)
 }
 
 func printTimeExample() {

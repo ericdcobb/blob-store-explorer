@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/magiconair/properties"
 )
@@ -40,6 +41,7 @@ func (exploration *Exploration) visit(path string, f os.FileInfo, err error) err
 		}
 		if exploration.Collect {
 			props.Set("filePath", path)
+			props.Set("creationTime_formatted", BlobCreatedTime(props.GetString("creationTime", "0000000000000")).Format(time.RFC3339))
 			exploration.Collected = append(exploration.Collected, props)
 		}
 	}
