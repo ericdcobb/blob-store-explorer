@@ -28,7 +28,7 @@ Example output:
 
 ```
 Exploring /Users/ericdcobb/develop/sonatype/nexus-internal/target/sonatype-work/nexus3/blobs/default/Stats:
-Total blobs: 6, Total size: 834, Soft Deleted: 6, Total Size Deleted 834
+Total blobs: 6, Total size: 834, Soft Deleted: 6, Total Size Deleted: 834
 deleted = true
 @BlobStore.created-by = admin
 size = 40

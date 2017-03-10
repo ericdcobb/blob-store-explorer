@@ -82,7 +82,7 @@ type Stats struct {
 }
 
 func (stats *Stats) String() string {
-	return fmt.Sprintf("Total blobs: %d, Total size: %d, Soft Deleted: %d, Total Size Deleted %d",
+	return fmt.Sprintf("Total blobs: %d, Total size: %d, Soft Deleted: %d, Total Size Deleted: %d",
 		stats.TotalBlobs, stats.TotalSize, stats.SoftDeleted, stats.TotalSizeDeleted)
 }
 
