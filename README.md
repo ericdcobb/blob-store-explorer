@@ -7,11 +7,19 @@
 * [Package Management](#package-management)
 * [Todo](#todo)
 
+## Building
+
+After [setting up go](https://golang.org/doc/install) install with:
+
+```
+go install
+```
+
 ## Overview
 
 The Blob Store explorer was written in Golang mostly because I wanted to learn it.
 
-The tool is designed to query/explore the blob store directly. This can be used for development or support. Some things it should be able to do:
+The tool is designed to query/explore the Nexus Repository blob store directly. This can be used for development or support. Some things it should be able to do:
 
 * find a count of soft-deleted blobs, verify the amount of storage that should be recovered after a compact.
 * find blobs associated with a certain repository
