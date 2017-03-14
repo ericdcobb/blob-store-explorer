@@ -3,17 +3,10 @@
 ## Contents
 
 * [Overview](#overview)
+* [Building](#building)
 * [Usage](#usage)
 * [Package Management](#package-management)
 * [Todo](#todo)
-
-## Building
-
-After [setting up go](https://golang.org/doc/install) install with:
-
-```
-go install
-```
 
 ## Overview
 
@@ -24,6 +17,14 @@ The tool is designed to query/explore the Nexus Repository blob store directly. 
 * find a count of soft-deleted blobs, verify the amount of storage that should be recovered after a compact.
 * find blobs associated with a certain repository
 * find blobs created by a specific user
+
+## Building
+
+After [setting up go](https://golang.org/doc/install) install with:
+
+```
+go install
+```
 
 
 ## Usage
